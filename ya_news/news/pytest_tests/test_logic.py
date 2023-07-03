@@ -6,7 +6,13 @@ from news.models import Comment
 import pytest
 
 
-def test_user_can_create_note(author_client, author, form_data, news_id_for_args, news):
+def test_user_can_create_note(
+    author_client,
+    author,
+    form_data,
+    news_id_for_args,
+    news
+):
     url = reverse('news:detail', args=(news_id_for_args))
     response = author_client.post(url, data=form_data)
     assertRedirects(response, f'{url}#comments')
@@ -27,21 +33,35 @@ def test_anonymous_user_cant_create_note(client, form_data, news_id_for_args):
     assert Comment.objects.count() == 0
 
 
-def test_user_cant_use_bad_words(author_client, news_id_for_args, bad_words_data):
+def test_user_cant_use_bad_words(
+    author_client,
+    news_id_for_args,
+    bad_words_data
+):
     url = reverse('news:detail', args=news_id_for_args)
     response = author_client.post(url, data=bad_words_data)
     assertFormError(response, 'form', 'text', errors=WARNING)
     assert Comment.objects.count() == 0
 
 
-def test_author_can_edit_comment(author_client, form_data, comment, edit_url, url_to_comments):
+def test_author_can_edit_comment(
+    author_client, form_data,
+    comment,
+    edit_url,
+    url_to_comments
+):
     response = author_client.post(edit_url, data=form_data)
     assertRedirects(response, url_to_comments)
     comment.refresh_from_db()
     assert comment.text == form_data['text']
 
 
-def test_other_user_cant_edit_comment(admin_client, form_data, comment, edit_url):
+def test_other_user_cant_edit_comment(
+    admin_client,
+    form_data,
+    comment,
+    edit_url
+):
     response = admin_client.post(edit_url, data=form_data)
     assert response.status_code == HTTPStatus.NOT_FOUND
     comment_from_db = Comment.objects.get(id=comment.id)

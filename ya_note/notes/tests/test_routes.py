@@ -8,6 +8,7 @@ from notes.models import Note
 
 User = get_user_model()
 
+
 class TestRoutes(TestCase):
 
     @classmethod
@@ -33,7 +34,7 @@ class TestRoutes(TestCase):
                 url = reverse(name, args=args)
                 response = self.client.get(url)
                 self.assertEqual(response.status_code, HTTPStatus.OK)
-    
+
     def test_availability_for_login_users(self):
         urls = (
             ('notes:add', None),
@@ -46,7 +47,7 @@ class TestRoutes(TestCase):
                 url = reverse(name, args=args)
                 response = self.client.get(url)
                 self.assertEqual(response.status_code, HTTPStatus.OK)
-    
+
     def test_availability_for_note_edit_and_delete(self):
         users_statuses = (
             (self.author, HTTPStatus.OK),
@@ -54,8 +55,8 @@ class TestRoutes(TestCase):
         )
         for user, status in users_statuses:
             self.client.force_login(user)
-            for name in ('notes:edit', 'notes:delete', 'notes:detail'):  
-                with self.subTest(user=user, name=name):        
+            for name in ('notes:edit', 'notes:delete', 'notes:detail'):
+                with self.subTest(user=user, name=name):
                     url = reverse(name, args=(self.note.slug,))
                     response = self.client.get(url)
                     self.assertEqual(response.status_code, status)

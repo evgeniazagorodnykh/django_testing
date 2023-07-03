@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from pytest_django.asserts import assertRedirects, assertFormError
+from pytest_django.asserts import assertRedirects
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.urls import reverse
@@ -28,7 +28,7 @@ class TestNoteCreation(TestCase):
             'slug': cls.NOTE_SLUG
         }
 
-    def test_anonymous_user_cant_create_note(self):  
+    def test_anonymous_user_cant_create_note(self):
         self.client.post(self.url, data=self.form_data)
         notes_count = Note.objects.count()
         self.assertEqual(notes_count, 0)
@@ -63,7 +63,7 @@ class TestNoteCreation(TestCase):
         assert Note.objects.count() == 1
         new_note = Note.objects.get()
         expected_slug = slugify(self.form_data['title'])
-        assert new_note.slug == expected_slug 
+        assert new_note.slug == expected_slug
 
 
 class TestNoteEditDelete(TestCase):

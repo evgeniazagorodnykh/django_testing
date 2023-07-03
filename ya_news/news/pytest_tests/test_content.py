@@ -2,6 +2,7 @@ import pytest
 from django.conf import settings
 from django.urls import reverse
 
+
 @pytest.mark.django_db('news')
 @pytest.mark.parametrize(
     'name, args',

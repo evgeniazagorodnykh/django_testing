@@ -6,8 +6,9 @@ from news.models import News, Comment
 from django.conf import settings
 from news.forms import BAD_WORDS
 
+
 @pytest.fixture
-def author(django_user_model):  
+def author(django_user_model):
     return django_user_model.objects.create(username='Автор')
 
 
@@ -34,12 +35,12 @@ def comment(news, author):
 
 
 @pytest.fixture
-def news_id_for_args(news):  
+def news_id_for_args(news):
     return news.id,
 
 
 @pytest.fixture
-def comment_id_for_args(comment):  
+def comment_id_for_args(comment):
     return comment.id,
 
 
@@ -99,4 +100,3 @@ def edit_url(comment_id_for_args):
 @pytest.fixture
 def delete_url(comment_id_for_args):
     return reverse('news:delete', args=comment_id_for_args)
-
