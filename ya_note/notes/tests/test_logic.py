@@ -98,14 +98,14 @@ class TestNoteEditDelete(TestCase):
         }
 
     def test_author_can_delete_note(self):
-        count = Note.objects.count()
+        count = Note.objects.count() - 1
         response = self.auth_client.delete(self.delete_url)
         self.assertRedirects(response, self.done_url)
         notes_count = Note.objects.count()
         self.assertEqual(notes_count, count)
 
     def test_user_cant_delete_note_of_another_user(self):
-        count = Note.objects.count() + 1
+        count = Note.objects.count()
         response = self.reader_client.delete(self.delete_url)
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
         notes_count = Note.objects.count()
