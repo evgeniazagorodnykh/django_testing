@@ -73,14 +73,14 @@ def test_other_user_cant_edit_comment(
 
 
 def test_author_can_delete_comment(author_client, delete_url, url_to_comments):
-    count = Comment.objects.count()
+    count = Comment.objects.count() - 1
     response = author_client.delete(delete_url)
     assertRedirects(response, url_to_comments)
     assert Comment.objects.count() == count
 
 
 def test_other_user_cant_delete_comment(admin_client, delete_url):
-    count = Comment.objects.count() + 1
+    count = Comment.objects.count()
     response = admin_client.delete(delete_url)
     assert response.status_code == HTTPStatus.NOT_FOUND
     assert Comment.objects.count() == count
