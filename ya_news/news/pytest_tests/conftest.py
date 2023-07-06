@@ -1,10 +1,12 @@
-from django.urls import reverse
-import pytest
 from datetime import datetime, timedelta
-from django.utils import timezone
-from news.models import News, Comment
+
 from django.conf import settings
+from django.urls import reverse
+from django.utils import timezone
+
+import pytest
 from news.forms import BAD_WORDS
+from news.models import Comment, News
 
 
 @pytest.fixture
@@ -20,18 +22,16 @@ def author_client(author, client):
 
 @pytest.fixture
 def news():
-    news = News.objects.create(title='Заголовок', text='Текст')
-    return news
+    return News.objects.create(title='Заголовок', text='Текст')
 
 
 @pytest.fixture
 def comment(news, author):
-    comment = Comment.objects.create(
+    return Comment.objects.create(
         news=news,
         author=author,
         text='Текст комментария'
     )
-    return comment
 
 
 @pytest.fixture
