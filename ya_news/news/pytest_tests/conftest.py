@@ -3,8 +3,8 @@ from datetime import datetime, timedelta
 from django.conf import settings
 from django.urls import reverse
 from django.utils import timezone
-
 import pytest
+
 from news.forms import BAD_WORDS
 from news.models import Comment, News
 
