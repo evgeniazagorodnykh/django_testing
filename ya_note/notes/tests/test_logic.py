@@ -6,7 +6,6 @@ from django.urls import reverse
 
 from notes.forms import WARNING
 from notes.models import Note
-from pytest_django.asserts import assertRedirects
 from pytils.translit import slugify
 
 User = get_user_model()
@@ -65,7 +64,7 @@ class TestNoteCreation(TestCase):
         count = Note.objects.count() + 1
         self.form_data.pop('slug')
         response = self.auth_client.post(self.url, data=self.form_data)
-        assertRedirects(response, reverse('notes:success'))
+        self.assertRedirects(response, reverse('notes:success'))
         assert Note.objects.count() == count
         new_note = Note.objects.get()
         expected_slug = slugify(self.form_data['title'])
