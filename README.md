@@ -29,6 +29,9 @@ python manage.py createsuperuser.
 ```
 python manage.py loaddata news.json.
 ```
-Запустите проект.
+Запустите проект:
+```
+python manage.py runserver
+```
 
 
